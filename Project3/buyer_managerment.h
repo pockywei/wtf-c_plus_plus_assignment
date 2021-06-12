@@ -14,6 +14,7 @@ public:
 	void add_buyer(buyer*);  //增加购买人信息
 	vector<buyer*> return_buyerlist();  //查看购买人列表
 	void get_buyer_by_id(int);  //通过编号查找购买人信息
+	void get_buyer_map(map<int, buyer*>);
 };
 
 #endif

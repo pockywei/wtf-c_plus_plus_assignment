@@ -29,5 +29,7 @@ public:
 	void read_booklist();
 	void read_orderlist();
 	void read_receipt();
+	int addbuyer_into_file(string, int, string, double);
+	void send_buyer_list();
 };
 #endif

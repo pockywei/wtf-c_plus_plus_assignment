@@ -2,6 +2,7 @@
 
 vector<buyer*> buy_list;
 map<int, buyer*> b_list;
+buyer_managerment* bylist = new buyer_managerment;
 
 int get_code_list()
 {
@@ -20,7 +21,7 @@ int text::testadm_menu() {
 	string tmp_code;
 	cout << "pls";
 	cin >> code;
-	ifstream cd("/Users/WEI/Desktop/网上结算/code.txt", ios::in);
+	ifstream cd("code.txt", ios::in);
 	if (!cd) {      
 		cout << "can not open file" << endl;
 		exit(1);
@@ -36,7 +37,7 @@ int text::testadm_menu() {
 		return 0;
 };
 void text::read_buyerlist() {
-	buyer_managerment bylist;
+	/*buyer_managerment *bylist=new buyer_managerment;*/
 	vector<string> buyer_info;//临时接一下个人信息，数组存放
 	string str;
 	string substr;
@@ -57,14 +58,14 @@ void text::read_buyerlist() {
 			if(atoi(buyer_info[2].c_str()) <1 && buyer_info.size()==5){
 				buyer* a = new honoured_guest(buyer_info[0], atoi(buyer_info[1].c_str()), atof(buyer_info[2].c_str()), buyer_info[3], atof(buyer_info[2].c_str()));
 				cout<<"honoured_guest:"<<buyer_info[0]<<atoi(buyer_info[1].c_str())<<atof(buyer_info[2].c_str())<< buyer_info[3]<< atof(buyer_info[2].c_str())<<endl;
-				bylist.add_buyer(a);
+				bylist->add_buyer(a);
 				b_list[a->getbuyerid()] = a;
 					//buy_list.push_back(a);    
 			}
 			else if(atoi(buyer_info[2].c_str()) > 1 && buyer_info.size()==5){
 				buyer* b = new member(buyer_info[0], atoi(buyer_info[1].c_str()), atof(buyer_info[2].c_str()), buyer_info[3], atof(buyer_info[2].c_str()));
 				cout<<"member:"<<buyer_info[0]<<atoi(buyer_info[1].c_str())<<atof(buyer_info[2].c_str())<< buyer_info[3]<< atof(buyer_info[2].c_str())<<endl;
-				bylist.add_buyer(b);
+				bylist->add_buyer(b);
 				cout<<"member:"<<b->getbuyerid()<<endl;
 				b_list[b->getbuyerid()] = b;
 					//buy_list.push_back(b);
@@ -72,7 +73,7 @@ void text::read_buyerlist() {
 			else{
 				buyer* c = new layfolk(buyer_info[0],atof(buyer_info[1].c_str()),buyer_info[2],atof(buyer_info[3].c_str()));
 				cout<<"layfolk:"<<buyer_info[0]<<atof(buyer_info[1].c_str())<<buyer_info[2]<<atof(buyer_info[3].c_str())<<endl;
-				bylist.add_buyer(c);
+				bylist->add_buyer(c);
 				cout<<c->getbuyerid()<<endl;
 				b_list[c->getbuyerid()] = c;
 					//buy_list.push_back(c);
@@ -83,12 +84,61 @@ void text::read_buyerlist() {
 	inf.close();
 	
 	//vector<buyer*> buyerlist;
-	for (int i=0;i<bylist.return_buyerlist().size(); i++)
+	for (int i=0;i<bylist->return_buyerlist().size(); i++)
 	{
-		bylist.return_buyerlist()[i]->display();
+		bylist->return_buyerlist()[i]->display();
 		
 	}
+}
+void text::send_buyer_list() {
+	bylist->get_buyer_map(b_list);
 }
 void text::read_booklist() {}
 void text::read_orderlist() {}
 void text::read_receipt() {}
+int text::addbuyer_into_file(string name, int id, string ad, double discount) {
+	ofstream BLout("buyerlist.txt", ios::app);
+	if (!BLout) {
+		cout << "can not open file" << endl;
+		return 0;
+	}
+	else {
+		int flag = 0;
+		for (int i = 0;i < bylist->return_buyerlist().size(); i++)
+		{
+			if (id == bylist->return_buyerlist()[i]->getbuyerid()) {
+				flag = 1;
+				break;
+			}
+		}
+		if (flag) {
+			BLout.close();
+			return 3;
+		}
+		else {
+			if (discount == 0) {
+				BLout << name << ' ' << id << ' ' << ad << ' ' << '0' << endl;
+				BLout.close();
+				return 1;
+			}
+			else {
+				if (discount < 1) {
+					BLout << name << ' ' << id << ' ' << discount << ' ' << ad << ' ' << '0' << endl;
+					BLout.close();
+					return 1;
+				}
+				else {
+					if (discount <= 5)
+					{
+						BLout << name << ' ' << id << ' ' << discount << ' ' << ad << ' ' << '0' << endl;
+						BLout.close();
+						return 1;
+					}
+					else
+						BLout.close();
+						return 2;
+				}
+			}
+		}
+	}
+}

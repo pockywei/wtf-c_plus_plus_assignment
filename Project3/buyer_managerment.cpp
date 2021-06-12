@@ -1,6 +1,8 @@
 #include "buyer_managerment.h"
 #include "text.h"
 
+map<int, buyer*> tmp_map;
+
 buyer_managerment::buyer_managerment() {}
 buyer_managerment::buyer_managerment(vector<buyer*>) {}
 
@@ -14,9 +16,17 @@ vector<buyer*> buyer_managerment::return_buyerlist() {
 	
 	return buyerlist;
 }
+void buyer_managerment::get_buyer_map(map<int, buyer*> bymap) {
+	tmp_map = bymap;
+}
 void buyer_managerment::get_buyer_by_id(int id) {
-	if (b_list.count(id) > 0)
+	for(int i = 0;i < b_list.size();i++)
 	{
-		cout<<b_list[id]->getbuyname();
+		if (b_list[i]->getbuyerid() == id) {
+			b_list[i]->display();
+			break;
+		}
+		else
+			cout << "Error input!" << endl;
 	}
 }
