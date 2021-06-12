@@ -17,15 +17,15 @@ protected:
 	int buyerID;
 	string address;
 	double pay;
-	vector<book> fo_list;
+	//vector<book> fo_list;
 public:
 	buyer();
 	buyer(string n, int b, string a, double p);
 	string getbuyname();
 	string getaddress();
 	int getbuyerid();
-	void setbuyerbooks(book);
-	vector<book> returnbooklist();
+	//void setbuyerbooks(book);
+	//vector<book> returnbooklist();
 	double getpay();
 	int getid();
 	virtual void display() = 0;

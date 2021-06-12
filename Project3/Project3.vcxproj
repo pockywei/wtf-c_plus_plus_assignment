@@ -173,6 +173,7 @@
     <Text Include="administrator.txt" />
     <Text Include="buyerlist.txt" />
     <Text Include="code.txt" />
+    <Text Include="booklist.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

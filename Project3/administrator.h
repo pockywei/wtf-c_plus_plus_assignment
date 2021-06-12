@@ -8,7 +8,7 @@
 #include <map>
 #include <algorithm>
 #include<string>
-#include "text.h"
+
 
 using namespace std;
 

@@ -13,20 +13,25 @@ void buyer_managerment::add_buyer(buyer* a) {
 }
 
 vector<buyer*> buyer_managerment::return_buyerlist() {
-	
-	return buyerlist;
+	text tx;
+	return tx.read_buyerlist();
 }
 void buyer_managerment::get_buyer_map(map<int, buyer*> bymap) {
 	tmp_map = bymap;
 }
 void buyer_managerment::get_buyer_by_id(int id) {
-	for(int i = 0;i < b_list.size();i++)
+	int flag = 0;
+	vector<buyer*> temp = this->return_buyerlist();
+	for(int i = 0;i < temp.size();i++)
 	{
-		if (b_list[i]->getbuyerid() == id) {
-			b_list[i]->display();
+		if (temp[i]->getbuyerid() == id) {
+			temp[i]->display();
+			flag = 1;
 			break;
 		}
-		else
-			cout << "Error input!" << endl;
+		
 	}
+	if(flag==0)
+		cout << "Error input!" << endl;
 }
+

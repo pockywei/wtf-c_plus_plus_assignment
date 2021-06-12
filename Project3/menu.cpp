@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "text.h"
 
 administrator adm;
 buyer_managerment bm;
@@ -120,6 +121,11 @@ void menu::display_second_menu() {
 void menu::switch_second_menu() {
 	cout << endl;
 	cout << "Choice:";
+	string bookID;//
+	vector<buyer*> temp_tx_read_buy;
+	vector<book*> temp_tx_read_book;
+	vector<order*> temp_tx_read_order;
+	//vector<receipt*> temp_tx_read_order;
 
 	int cmd;
 	cin >> cmd;
@@ -127,13 +133,19 @@ void menu::switch_second_menu() {
 	switch (cmd) {
 	case 1: 
 		//system("cls");
-		tx.read_buyerlist();
+		
+		temp_tx_read_buy = tx.read_buyerlist();
+		for (int i = 0; i < temp_tx_read_buy.size(); i++)
+		{
+			temp_tx_read_buy[i]->display();
+
+		}
 		int n;
 		cout << endl;
 		cout << "*******************************" << endl;
 		cout << "Make a choice:" << endl;
-		cout << "Add buyer." << endl;
-		cout << "Return to main nemu." << endl;
+		cout << "1.Add buyer." << endl;
+		cout << "2.Return to main nemu." << endl;
 		cout << endl;
 		cout << "Choice:" << endl;
 		cin >> n;
@@ -154,16 +166,20 @@ void menu::switch_second_menu() {
 			cout << "Discount:";
 			cin >> dis;
 			cout << endl;
-			if (tx.addbuyer_into_file(na, na_id, ads, dis)==1)
+			int index = tx.addbuyer_into_file(na, na_id, ads, dis);
+			if (index == 1) {
 				cout << "Added successfully";
+				men.display_second_menu();
+				men.switch_second_menu();
+			}
 			else {
-				if (tx.addbuyer_into_file(na, na_id, ads, dis) == 3) {
+				if (index == 3) {
 					cout << "*** Buyer name already exists!***" << endl;
 					cout << "***Back to main menu***" << endl;
 					men.display_second_menu();
 				}
 				else {
-					if (tx.addbuyer_into_file(na, na_id, ads, dis) == 2) {
+					if (index == 2) {
 						cout << "*** Wrong input!***" << endl;
 						cout << "***Back to main menu***" << endl;
 						men.display_second_menu();
@@ -173,8 +189,10 @@ void menu::switch_second_menu() {
 
 		}
 		else {
-			if (n == 2)
+			if (n == 2) {
 				men.display_second_menu();
+				men.switch_second_menu();
+			}
 			else {
 				cout << endl;
 				cout << "*** Wrong input!***" << endl;
@@ -189,10 +207,17 @@ void menu::switch_second_menu() {
 		cout << "Enter the ID of buyer:";
 		cin >> a;
 		bm.get_buyer_by_id(a);
+		men.display_second_menu();
+		men.switch_second_menu();
 		break;
 	case 3:
 		//system("cls");
-		tx.read_booklist();
+		temp_tx_read_book=tx.read_booklist();
+		for (int i = 0; i < temp_tx_read_book.size(); i++)
+		{
+			temp_tx_read_book[i]->display();
+
+		}
 		int m;
 		cout << endl;
 		cout << "*******************************" << endl;
@@ -208,25 +233,30 @@ void menu::switch_second_menu() {
 			bw.add_book(a,b);
 		}
 		else {
-			if (m == 2)
+			if (m == 2) {
 				men.display_second_menu();
+				men.switch_second_menu();
+			}
 			else {
 				cout << endl;
 				cout << "*** Wrong input!***" << endl;
 				cout << "***Back to main menu***" << endl;
 				men.display_second_menu();
+				men.switch_second_menu();
 			}
 		}
 		break;
 	case 4:
 		//system("cls");
-		int b;
-		cin >> b;
-		bw.get_book_by_id(b);
+		cout << "Enter the ID of book:";
+		cin >> bookID;
+		bw.get_book_by_id(bookID);
+		men.display_second_menu();
+		men.switch_second_menu();
 		break;
 	case 5:
 		//system("cls");
-		tx.read_orderlist();
+		//tx.read_orderlist();
 		int p;
 		cout << endl;
 		cout << "*******************************" << endl;

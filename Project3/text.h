@@ -14,22 +14,28 @@
 #include "administrator.h"
 #include "book_warehouse.h"
 #include "buyer_managerment.h"
-#include "order_library.h"
-#include "receipt.h"
+//#include "order_library.h"
+//#include "receipt.h"
 #include <sstream>
 
-extern map<int, buyer*> b_list;
 
 using namespace std;
 
 class text {
 public:
 	int testadm_menu();
-	void read_buyerlist();
-	void read_booklist();
-	void read_orderlist();
-	void read_receipt();
-	int addbuyer_into_file(string, int, string, double);
-	void send_buyer_list();
+	vector<buyer*> read_buyerlist();
+	int addbuyer_into_file(string name, int id, string ad, double discount);
+
+	vector<book*> read_booklist();
+	int addbook_into_file(string b_id, string b_n, string au, string pu, double pr);
+
+	/*vector<order*> read_orderlist();
+	int addorder_into_file(string, int, string, double);*/
+
+
+	/*vector<receipt*> read_receipt();
+	int addreceipt_into_file(string, int, string, double);*/
+
 };
 #endif

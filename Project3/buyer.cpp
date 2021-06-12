@@ -24,14 +24,14 @@ string buyer::getaddress() {
 int buyer::getbuyerid() {
 	return buyerID;
 }
-vector<book> buyer::returnbooklist() {
-	vector<book> ret;
- 	return ret;
-}
-void buyer::setbuyerbooks(book a)
-{
-	this->fo_list.push_back(a);
-}
+//vector<book> buyer::returnbooklist() {
+//	vector<book> ret;
+// 	return ret;
+//}
+//void buyer::setbuyerbooks(book a)
+//{
+//	this->fo_list.push_back(a);
+//}
 double buyer::getpay() {
 	return pay;
 }

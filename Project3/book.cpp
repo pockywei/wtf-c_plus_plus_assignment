@@ -44,3 +44,4 @@ double book::getprice()
 {
 	return price;
 }
+
