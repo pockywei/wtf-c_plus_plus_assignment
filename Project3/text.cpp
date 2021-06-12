@@ -14,7 +14,7 @@ int get_code_list()
 	}
 	in.close();
 	return n;
-}//
+}//hjhkjhkjhkj
 int text::testadm_menu() {
 	string code;
 	string tmp_code;
