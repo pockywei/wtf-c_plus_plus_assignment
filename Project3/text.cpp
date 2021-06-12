@@ -22,7 +22,7 @@ int text::testadm_menu() {
 	cin >> code;
 	ifstream cd("/Users/WEI/Desktop/网上结算/code.txt", ios::in);
 	if (!cd) {      
-		cout << "can not open file" << endl;
+		cout << "Can not open file" << endl;
 		exit(1);
 	}
 	int n = get_code_list();
