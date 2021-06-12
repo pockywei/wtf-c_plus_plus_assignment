@@ -4,6 +4,7 @@ vector<buyer*> buy_list;
 map<int, buyer*> b_list;
 
 vector<book*> book_list;
+vector<order*> order_list;
 
 int get_code_list()
 {
@@ -142,7 +143,7 @@ int text::addbuyer_into_file(string name, int id, string ad, double discount) {
 //	bylist->get_buyer_map(b_list);
 //}
 vector<book*> text::read_booklist() {
-	/*buyer_managerment *bylist=new buyer_managerment;*/
+	book_list.clear();
 	vector<string> book_info;//临时接一下个人信息，数组存放
 	string str;
 	string substr;
@@ -207,12 +208,73 @@ int text::addbook_into_file(string b_id, string b_n, string au, string pu, doubl
 }
 //vector<order*> text::read_orderlist() {
 //
+//	vector<string> order_info;//临时接一下个人信息，数组存放
+//	string str;
+//	string substr;
+//	ifstream inf("orderlist.txt", ios::in);
+//
+//	if (!inf) {
+//		cout << "can not find file" << endl;
+//		exit(1);
+//	}
+//	else {
+//		while (getline(inf, str)) {
+//			order_info.clear();//下一条之前要清空。
+//			istringstream ss(str);
+//			while (getline(ss, substr, ' ')) {
+//				//cout<<substr;
+//				order_info.push_back(substr);
+//			}
+//			if (order_info.size() > 1) {
+//
+//				order* a = new order(buyerid, vector<book> booklist, orderid, price);
+//				//cout<< book_info[0]<< book_info[1]<< book_info[2]<<book_info[3]<<atof(book_info[4].c_str()) <<endl;
+//				//bylist->add_buyer(a);
+//				book_list.push_back(a);
+//			}
+//		}
+//
+//	}
+//	inf.close();
+//
+//	return order_list;
 //}
 
-//int text::addorder_into_file(string, int, string, double)
-//{
-//	return 0;
-//}
+int text::addorder_into_file(int buyerid, vector<book*> booklist, string orderid, double price)
+{
+	
+	
+	ofstream BLout("orderlist.txt", ios::app);
+	if (!BLout) {
+		cout << "can not open file" << endl;
+		return 0;
+	}
+	else {
+		int flag = 0;
+		if (flag) {
+			BLout.close();
+			return 3;
+		}
+		else {
+			string booklist_string = "";
+			for (int i = 0; i < booklist.size(); i++)
+			{
+
+				booklist_string = booklist_string + "#" + booklist[i]->getbook_ID() + " " + booklist[i]->getbook_name() + " " + booklist[i]->getauthor() + " " + booklist[i]->getpublishing() + " " + to_string(booklist[i]->getprice());
+
+			}
+
+			BLout << buyerid << ' '<<"BOOK[ "<< booklist_string << " ]" << ' ' << orderid << ' ' << price << endl;
+			BLout.close();
+			return 1;
+		}
+		
+	}
+	return 0;
+}
+// 
+// 
+// 
 ////vector<receipt*>  text::read_receipt() {}
 //
 //int text::addreceipt_into_file(string, int, string, double)

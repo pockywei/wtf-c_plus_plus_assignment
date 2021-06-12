@@ -14,7 +14,7 @@
 #include "administrator.h"
 #include "book_warehouse.h"
 #include "buyer_managerment.h"
-//#include "order_library.h"
+#include "order_library.h"
 //#include "receipt.h"
 #include <sstream>
 
@@ -30,8 +30,8 @@ public:
 	vector<book*> read_booklist();
 	int addbook_into_file(string b_id, string b_n, string au, string pu, double pr);
 
-	/*vector<order*> read_orderlist();
-	int addorder_into_file(string, int, string, double);*/
+	//vector<order*> read_orderlist();
+	int addorder_into_file(int buyerid, vector<book*> booklist, string orderid, double price);
 
 
 	/*vector<receipt*> read_receipt();

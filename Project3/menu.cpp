@@ -1,14 +1,29 @@
 #include "menu.h"
 #include "text.h"
+#include <sstream>
+#include<windows.h>
 
 administrator adm;
 buyer_managerment bm;
 book_warehouse bw;
-order_library ol;
-receipt re;
+//order_library ol;
+//receipt re;
 menu men;
 text tx;
 
+string menu::generate_order_number()
+{
+	int s=0;
+	long t1 = GetTickCount64();					//开始时间			
+	for (int i = 0; i < 1000000; i++)
+	{
+		s += i;
+	}
+	long t2 = GetTickCount64();					 //结束时间 	
+	cout << "程序执行时间：" << t2 - t1 << endl;  //程序运行的时间得到的时间单位为毫秒 /1000为秒
+
+	return to_string(t2 - t1);
+}
 
 void menu::display_menu() {
 	cout << "======Welcome to use online book store system============" << endl;
@@ -228,12 +243,50 @@ void menu::switch_second_menu() {
 		cout << "Choice:" << endl;
 		cin >> m;
 		if (m == 1) {
-			int a, b;
-			cin >> a >> b;
-			bw.add_book(a,b);
+			string b_id;
+		    string b_n;
+		    string au;
+		    string pu;
+		    double pr;
+			cout << "Book id:";
+			cin >> b_id;
+			cout << endl;
+			cout << "Book name:";
+			cin >> b_n;
+			cout << endl;
+			cout << "Author:";
+			cin >> au;
+			cout << endl;
+			cout << "publisher:";
+			cin >> pu;
+			cout << endl;
+			cout << "price:";
+			cin >> pr;
+			cout << endl;
+			int index2 = tx.addbook_into_file(b_id, b_n, au,pu, pr);
+			if (index2 == 1) {
+				cout << "Added successfully";
+				men.display_second_menu();
+				men.switch_second_menu();
+			}
+			else {
+				if (index2 == 3) {
+					cout << "*** Book name already exists!***" << endl;
+					cout << "***Back to main menu***" << endl;
+					men.display_second_menu();
+				}
+				else {
+					if (index2 == 2) {
+						cout << "*** Wrong input!***" << endl;
+						cout << "***Back to main menu***" << endl;
+						men.display_second_menu();
+					}
+				}
+			}
 		}
 		else {
 			if (m == 2) {
+				cout << "Added successfully";
 				men.display_second_menu();
 				men.switch_second_menu();
 			}
@@ -267,7 +320,75 @@ void menu::switch_second_menu() {
 		cout << "Choice:" << endl;
 		cin >> p;
 		if (p == 1) {
-			ol.create_order();
+			int num_of_buyer;
+			string number_of_book;
+			vector<book*> book_choice;
+			vector<book*> tempbooklist;
+			string order_id;
+			double price=0;
+			//选人
+			cout << "choose a buyer by number:";
+			vector<buyer*> buytem;
+			buytem = tx.read_buyerlist();
+			for (int i = 0; i < buytem.size(); i++) 
+			{
+				cout << "["<<i<<"] ";
+				buytem[i]->display();
+			}
+			cin >> num_of_buyer;
+			cout << endl;
+
+			//选书
+			cout << "choose a Book by number(Enter 'q' to quit choose book.):" << endl;
+			tempbooklist = tx.read_booklist();
+			for (int i = 0; i < tempbooklist.size(); i++)
+			{
+				cout << "[" << i << "] ";
+				tempbooklist[i]->display();
+			}
+			cin >> number_of_book;
+			book_choice.push_back(tempbooklist[atoi(number_of_book.c_str())]);
+			while (number_of_book != "q") {
+				cout << "choose a Book by number(Enter 'q' to quit choose book.):" << endl;
+				for (int i = 0; i < tempbooklist.size(); i++)
+				{
+					cout << "[" << i << "] ";
+					tempbooklist[i]->display();
+				}
+				
+				cin >> number_of_book;
+				book_choice.push_back(tempbooklist[atoi(number_of_book.c_str())]);
+			}
+			cout << endl;
+
+			//生成单号
+			string temp_order = this->generate_order_number();
+
+			//算数价格
+			for (int i = 0; i < book_choice.size(); i++) {
+				price = price + book_choice[i]->getprice();
+			}
+			int index = tx.addorder_into_file(buytem[num_of_buyer]->getbuyerid(), book_choice, temp_order, price);
+			if (index == 1) {
+				cout << "Added successfully";
+				men.display_second_menu();
+				men.switch_second_menu();
+			}
+			else {
+				if (index == 3) {
+					cout << "*** Book name already exists!***" << endl;
+					cout << "***Back to main menu***" << endl;
+					men.display_second_menu();
+				}
+				else {
+					if (index == 2) {
+						cout << "*** Wrong input!***" << endl;
+						cout << "***Back to main menu***" << endl;
+						men.display_second_menu();
+					}
+				}
+			}
+
 		}
 		else {
 			if (p == 2)
@@ -284,18 +405,18 @@ void menu::switch_second_menu() {
 		//system("cls");
 		int c;
 		cin >> c;
-		ol.search_order(c);
+		//ol.search_order(c);
 		break;
 	case 7:
 		//system("cls");
-		re.add_receipt();
+		//re.add_receipt();
 		break;
 	case 8:
 		//system("cls");
 		int q;
 		cout << "Pls enter recipt info:";
 		cin >> q;
-		re.get_receipt_by_id(q);
+		//re.get_receipt_by_id(q);
 		break;
 	case 9: 
 		cout << endl;

@@ -22,5 +22,6 @@ public:
 	void switch_second_menu();   
 	void return_second_menu();  
 	int testadm_menu(); 
+	string generate_order_number();
 };
 #endif
