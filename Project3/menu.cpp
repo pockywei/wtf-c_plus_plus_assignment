@@ -138,8 +138,40 @@ void menu::switch_second_menu() {
 		cout << "Choice:" << endl;
 		cin >> n;
 		if (n == 1)
-		{}
-			//bm.add_buyer();
+		{
+			string na,ads;
+			int na_id;
+			double dis;
+			cout << "Buyer name:" ;
+			cin >> na;
+			cout << endl;
+			cout << "Buyer ID:";
+			cin >> na_id;
+			cout << endl;
+			cout << "Address:";
+			cin >> ads;
+			cout << endl;
+			cout << "Discount:";
+			cin >> dis;
+			cout << endl;
+			if (tx.addbuyer_into_file(na, na_id, ads, dis)==1)
+				cout << "Added successfully";
+			else {
+				if (tx.addbuyer_into_file(na, na_id, ads, dis) == 3) {
+					cout << "*** Buyer name already exists!***" << endl;
+					cout << "***Back to main menu***" << endl;
+					men.display_second_menu();
+				}
+				else {
+					if (tx.addbuyer_into_file(na, na_id, ads, dis) == 2) {
+						cout << "*** Wrong input!***" << endl;
+						cout << "***Back to main menu***" << endl;
+						men.display_second_menu();
+					}
+				}
+			}
+
+		}
 		else {
 			if (n == 2)
 				men.display_second_menu();
